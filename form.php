@@ -3,9 +3,6 @@ include __DIR__ . '/includes/header.php';
 include __DIR__ . '/includes/nav.php';
 include_once __DIR__ . '/classes/Product.php';
 
-if (isset($_POST['submit'])) {
-    $customerObj->insertData($_POST);
-}
 
 ?>
 

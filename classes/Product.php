@@ -1,87 +1,75 @@
 <?php
-class Product
+
+include __DIR__ . '/../includes/db.php';
+
+class product
+
 {
-    private $servername = "localhost";
-    private $username   = "root";
-    private $password   = "";
-    private $database   = "s5_l5_progetto";
-    public  $con;
-    // Database Connection 
-    public function __construct()
+    private $conn;
+
+    public function __construct($conn)
     {
-        $this->con = new mysqli($this->servername, $this->username, $this->password, $this->database);
-        if (mysqli_connect_error()) {
-            trigger_error("Failed to connect to MySQL: " . mysqli_connect_error());
-        } else {
-            return $this->con;
-        }
-    }        // Insert customer data into customer table
-    public function insertData($post)
+        $this->conn = $conn;
+    }
+
+    public function getAllPosts()
     {
-        $image = $this->con->real_escape_string($_POST['image']);
-        $name = $this->con->real_escape_string($_POST['name']);
-        $fragrances = $this->con->real_escape_string($_POST['fragrances']);
-        $description = $this->con->real_escape_string(($_POST['description']));
-        $price = $this->con->real_escape_string(($_POST['price']));
-        $query = "INSERT INTO products(image, name, fragrances, description, price) VALUES('$image, $name, $fragrances, $description, $price')";
-        $sql = $this->con->query($query);
-        if ($sql == true) {
-            // header("Location:index.php?msg1=insert");
-            echo "Registration riuscita!";
-        } else {
-            echo "Registration failed try again!";
+        $stmt = $this->conn->query("SELECT * FROM products");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function createPost($image, $name, $fragrances, $description, $price)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO products (image, name, fragrances, description, price) VALUES (:image, :name, :fragrances, :description, :price)");
+        $stmt->bindParam(':image', $image);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':fragrances', $fragrances);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':price', $price);
+        try {
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
         }
-    }        // Fetch customer records for show listing
-    // public function displayData()
-    // {
-    //     $query = "SELECT * FROM customers";
-    //     $result = $this->con->query($query);
-    //     if ($result->num_rows > 0) {
-    //         $data = array();
-    //         while ($row = $result->fetch_assoc()) {
-    //             $data[] = $row;
-    //         }
-    //         return $data;
-    //     } else {
-    //         echo "No found records";
-    //     }
-    // }        // Fetch single data for edit from customer table
-    // public function displyaRecordById($id)
-    // {
-    //     $query = "SELECT * FROM customers WHERE id = '$id'";
-    //     $result = $this->con->query($query);
-    //     if ($result->num_rows > 0) {
-    //         $row = $result->fetch_assoc();
-    //         return $row;
-    //     } else {
-    //         echo "Record not found";
-    //     }
-    // }        // Update customer data into customer table
-    // public function updateRecord($postData)
-    // {
-    //     $name = $this->con->real_escape_string($_POST['uname']);
-    //     $email = $this->con->real_escape_string($_POST['uemail']);
-    //     $username = $this->con->real_escape_string($_POST['upname']);
-    //     $id = $this->con->real_escape_string($_POST['id']);
-    //     if (!empty($id) && !empty($postData)) {
-    //         $query = "UPDATE customers SET name = '$name', email = '$email', username = '$username' WHERE id = '$id'";
-    //         $sql = $this->con->query($query);
-    //         if ($sql == true) {
-    //             header("Location:index.php?msg2=update");
-    //         } else {
-    //             echo "Registration updated failed try again!";
-    //         }
-    //     }
-    // }
-    // // Delete customer data from customer table
-    // public function deleteRecord($id)
-    // {
-    //     $query = "DELETE FROM customers WHERE id = '$id'";
-    //     $sql = $this->con->query($query);
-    //     if ($sql == true) {
-    //         header("Location:index.php?msg3=delete");
-    //     } else {
-    //         echo "Record does not delete try again";
-    //     }
+    }
+
+    public function readPost($id)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM products WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePost($id, $image, $name, $fragrances, $description, $price)
+    {
+        $stmt = $this->conn->prepare("UPDATE products SET image = :image, name = :name, fragrances = :fragrances, description = :description, price = :price WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':image', $image);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':fragrances', $fragrances);
+        $stmt->bindParam(':price', $price);
+
+        try {
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+
+    public function deletePost($id)
+    {
+        $stmt = $this->conn->prepare("DELETE FROM products WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+
+        try {
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 }

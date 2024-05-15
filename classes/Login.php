@@ -6,6 +6,7 @@ class Login extends Connection
 {
     public $id;
     public function login($usernameemail, $password)
+
     {
         $result = mysqli_query($this->conn, "SELECT * FROM users WHERE username = '$usernameemail' OR email = '$usernameemail'");
         $row = mysqli_fetch_assoc($result);

@@ -4,6 +4,7 @@ include_once __DIR__ . '/Connection.php';
 class Register extends Connection
 {
     public function registration($username, $email, $password, $confirmpassword)
+
     {
         $duplicate = mysqli_query($this->conn, "SELECT * FROM users WHERE username = '$username' OR email = '$email'");
         if (mysqli_num_rows($duplicate) > 0) {
