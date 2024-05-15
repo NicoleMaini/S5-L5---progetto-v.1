@@ -4,9 +4,11 @@ include __DIR__ . '/includes/header.php';
 include __DIR__ . '/includes/nav.php';
 include __DIR__ . '/classes/Product.php';
 
+$allProduct = new Product($conn);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_id"])) {
     $delete_id = $_POST["delete_id"];
-    if ($postsManager->deletePost($delete_id)) {
+    if ($allProduct->deleteProduct($delete_id)) {
         header("Location: index.php");
         exit;
     } else {
@@ -14,8 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_id"])) {
     }
 }
 
-$allProduct = new Product($conn);
-$products = $allProduct->getAllPosts();
+$products = $allProduct->getProducts();
 
 ?>
 
@@ -32,7 +33,7 @@ $products = $allProduct->getAllPosts();
                         <p class="card-text mt-auto"><?= $product['description']; ?></p>
                         <p class="card-text"><?= $product['price']; ?></p>
                         <a href="details.php?id=<?php echo $product['id']; ?>" class="btn btn-outline-primary">View</a>
-                        <a href="updatePost.php?id=<?php echo $product['id']; ?>" class="btn btn-outline-warning">Edit</a>
+                        <a href="form.php?id=<?php echo $product['id']; ?>" class="btn btn-outline-warning">Edit</a>
                         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" style="display: inline;">
                             <input type="hidden" name="delete_id" value="<?= $product['id'] ?>">
                             <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>

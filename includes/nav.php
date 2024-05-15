@@ -32,6 +32,7 @@ if (!empty($_SESSION["id"])) {
             </ul>
             <?php if (!empty($_SESSION["id"])) { ?>
                 <span><?= $user["username"] ?></span>
+                <a class="nav-link me-3 ms-auto" href="/S5-L5%20-%20progetto%20v.1/form.php">Aggiungi</a>
                 <a class="nav-link me-3 ms-auto" href="/S5-L5%20-%20progetto%20v.1/logout.php">Logout</a>
             <?php   } ?>
         </div>

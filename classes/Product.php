@@ -12,13 +12,13 @@ class product
         $this->conn = $conn;
     }
 
-    public function getAllPosts()
+    public function getProducts()
     {
         $stmt = $this->conn->query("SELECT * FROM products");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function createPost($image, $name, $fragrances, $description, $price)
+    public function createProduct($image, $name, $fragrances, $description, $price)
     {
         $stmt = $this->conn->prepare("INSERT INTO products (image, name, fragrances, description, price) VALUES (:image, :name, :fragrances, :description, :price)");
         $stmt->bindParam(':image', $image);
@@ -34,7 +34,7 @@ class product
         }
     }
 
-    public function readPost($id)
+    public function getProduct($id)
     {
         $stmt = $this->conn->prepare("SELECT * FROM products WHERE id = :id");
         $stmt->bindParam(':id', $id);
@@ -42,13 +42,14 @@ class product
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updatePost($id, $image, $name, $fragrances, $description, $price)
+    public function updateProduct($id, $image, $name, $fragrances, $description, $price)
     {
         $stmt = $this->conn->prepare("UPDATE products SET image = :image, name = :name, fragrances = :fragrances, description = :description, price = :price WHERE id = :id");
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':fragrances', $fragrances);
+        $stmt->bindParam(':fragrances', $description);
         $stmt->bindParam(':price', $price);
 
         try {
@@ -60,7 +61,7 @@ class product
     }
 
 
-    public function deletePost($id)
+    public function deleteProduct($id)
     {
         $stmt = $this->conn->prepare("DELETE FROM products WHERE id = :id");
         $stmt->bindParam(':id', $id);

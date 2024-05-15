@@ -15,11 +15,11 @@ $id = $_GET['id'];
 // Crea un'istanza della classe Posts
 $product = new product($conn);
 // Ottieni il post dal database
-$prod = $product->readPost($id);
+$prod = $product->getProduct($id);
 
 if (!$prod) {
     // Se il post non esiste, reindirizza alla dashboard
-    header("Location: dashboard.php");
+    header("Location: index.php");
     exit;
 }
 
