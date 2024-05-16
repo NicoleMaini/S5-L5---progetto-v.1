@@ -49,7 +49,7 @@ class product
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':fragrances', $fragrances);
-        $stmt->bindParam(':fragrances', $description);
+        $stmt->bindParam(':description', $description);
         $stmt->bindParam(':price', $price);
 
         try {
