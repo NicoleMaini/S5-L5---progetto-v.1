@@ -1,27 +1,20 @@
 <?php
 include __DIR__ . '/includes/header.php';
-include __DIR__ . '/classes/Register.php';
+// include __DIR__ . '/classes/Register.php';
+include __DIR__ . '/classes/Login.php';
 
 $register = new Register();
 
 if (isset($_POST['submit'])) {
-    $result = $register->registration(
-        $_POST["username"],
-        $_POST["email"],
-        $_POST["password"],
-        $_POST["confirmpassword"],
-    );
+    $result = $register->registration($_POST['username'], $_POST['email'], $_POST['password'], $_POST['confirmpassword']);
     if ($result == 1) {
-        echo
-        "<script> alert('Registration Successful'); location.href = 'http://localhost/S5-L5%20-%20progetto%20v.1/login.php'</script>";
+        echo "<script> alert('Registration Successful'); location.href = 'http://localhost/S5-L5%20-%20progetto%20v.1/login.php'</script>";
         // header("Location: login.php");
         // exit;
     } elseif ($result == 10) {
-        echo
-        "<script> alert('Username or Email Has Already Taken'); </script>";
+        echo "<script> alert('Username or Email Has Already Taken'); </script>";
     } elseif ($result == 100) {
-        echo
-        "<script> alert('Password Does Not Match'); </script>";
+        echo "<script> alert('Password Does Not Match'); </script>";
     }
 }
 
@@ -40,7 +33,8 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
             <label class="form-label" for="confirmpassword">Conferma Password</label>
-            <input class="form-control" type="password" name="confirmpassword" placeholder="Conferma Password" value="">
+            <input class="form-control" type="password" name="confirmpassword" placeholder="Conferma Password"
+                value="">
         </div>
         <div class="mb-3">
             <label class="form-label" for="email">Email</label>
@@ -55,6 +49,4 @@ if (isset($_POST['submit'])) {
 
 </div>
 
-<?php
-
-include __DIR__ . '/includes/footer.php';
+<?php include __DIR__ . '/includes/footer.php';

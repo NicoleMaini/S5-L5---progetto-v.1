@@ -1,26 +1,18 @@
 <?php
 
-include __DIR__ . '/../includes/db.php';
+include_once __DIR__ . '/Connection.php';
 
-class product
-
+class product extends Connection
 {
-    private $conn;
-
-    public function __construct($conn)
-    {
-        $this->conn = $conn;
-    }
-
     public function getProducts()
     {
-        $stmt = $this->conn->query("SELECT * FROM products");
+        $stmt = $this->conn->query('SELECT * FROM products');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function createProduct($image, $name, $fragrances, $description, $price)
     {
-        $stmt = $this->conn->prepare("INSERT INTO products (image, name, fragrances, description, price) VALUES (:image, :name, :fragrances, :description, :price)");
+        $stmt = $this->conn->prepare('INSERT INTO products (image, name, fragrances, description, price) VALUES (:image, :name, :fragrances, :description, :price)');
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':fragrances', $fragrances);
@@ -36,7 +28,7 @@ class product
 
     public function getProduct($id)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM products WHERE id = :id");
+        $stmt = $this->conn->prepare('SELECT * FROM products WHERE id = :id');
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -44,7 +36,7 @@ class product
 
     public function updateProduct($id, $image, $name, $fragrances, $description, $price)
     {
-        $stmt = $this->conn->prepare("UPDATE products SET image = :image, name = :name, fragrances = :fragrances, description = :description, price = :price WHERE id = :id");
+        $stmt = $this->conn->prepare('UPDATE products SET image = :image, name = :name, fragrances = :fragrances, description = :description, price = :price WHERE id = :id');
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':name', $name);
@@ -60,10 +52,9 @@ class product
         }
     }
 
-
     public function deleteProduct($id)
     {
-        $stmt = $this->conn->prepare("DELETE FROM products WHERE id = :id");
+        $stmt = $this->conn->prepare('DELETE FROM products WHERE id = :id');
         $stmt->bindParam(':id', $id);
 
         try {
