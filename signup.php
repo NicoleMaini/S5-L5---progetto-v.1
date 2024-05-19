@@ -13,7 +13,9 @@ if (isset($_POST['submit'])) {
     );
     if ($result == 1) {
         echo
-        "<script> alert('Registration Successful'); </script>";
+        "<script> alert('Registration Successful'); location.href = 'http://localhost/S5-L5%20-%20progetto%20v.1/login.php'</script>";
+        // header("Location: login.php");
+        // exit;
     } elseif ($result == 10) {
         echo
         "<script> alert('Username or Email Has Already Taken'); </script>";
@@ -48,6 +50,9 @@ if (isset($_POST['submit'])) {
     </form>
     <h4 class="mt-5">Sei già registrato? </h4>
     <a class="btn btn-success" href="./login.php">Accedi!</a>
+    <p class="mt-5"> oppure </p>
+    <a class="btn btn-warning" href="./index.php">torna in home</a>
+
 </div>
 
 <?php

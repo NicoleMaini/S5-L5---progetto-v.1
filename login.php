@@ -42,6 +42,8 @@ if (isset($_POST["submit"])) {
     </form>
     <h4 class="mt-5">Non sei ancora registrato? </h4>
     <a class="btn btn-success" href="./signup.php">Iscriviti!</a>
+    <p class="mt-5"> oppure </p>
+    <a class="btn btn-warning" href="./index.php">torna in home</a>
 </div>
 
 <?php

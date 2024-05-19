@@ -6,13 +6,17 @@ include __DIR__ . '/classes/Product.php';
 
 $allProduct = new Product($conn);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_id"])) {
-    $delete_id = $_POST["delete_id"];
-    if ($allProduct->deleteProduct($delete_id)) {
-        header("Location: index.php");
-        exit;
-    } else {
-        echo "Error deleting product.";
+if (!empty($_SESSION["id"])) {
+    $user = $select->selectUserById($_SESSION["id"]);
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_id"])) {
+        $delete_id = $_POST["delete_id"];
+        if ($allProduct->deleteProduct($delete_id)) {
+            header("Location: index.php");
+            exit;
+        } else {
+            echo "Error deleting product.";
+        }
     }
 }
 
@@ -33,11 +37,13 @@ $products = $allProduct->getProducts();
                         <p class="card-text mt-auto"><?= $product['description']; ?></p>
                         <p class="card-text"><?= $product['price']; ?></p>
                         <a href="details.php?id=<?php echo $product['id']; ?>" class="btn btn-outline-primary">View</a>
-                        <a href="form.php?id=<?php echo $product['id']; ?>" class="btn btn-outline-warning">Edit</a>
-                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" style="display: inline;">
-                            <input type="hidden" name="delete_id" value="<?= $product['id'] ?>">
-                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
-                        </form>
+                        <?php if (!empty($_SESSION["id"])) { ?>
+                            <a href="form.php?id=<?php echo $product['id']; ?>" class="btn btn-outline-warning">Edit</a>
+                            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" style="display: inline;">
+                                <input type="hidden" name="delete_id" value="<?= $product['id'] ?>">
+                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+                            </form>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

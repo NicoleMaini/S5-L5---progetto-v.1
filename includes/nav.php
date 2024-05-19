@@ -5,9 +5,6 @@ $select = new Select();
 
 if (!empty($_SESSION["id"])) {
     $user = $select->selectUserById($_SESSION["id"]);
-} else {
-    header("Location: /S5-L5%20-%20progetto%20v.1/login.php");
-    exit();
 }
 
 ?>
@@ -20,15 +17,15 @@ if (!empty($_SESSION["id"])) {
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-            <?php if (empty($_SESSION["id"])) { ?>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/S5-L5%20-%20progetto%20v.1/login.php">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/S5-L5%20-%20progetto%20v.1/signup.php">Register</a>
-                </li><?php
-                    } ?>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <?php if (empty($_SESSION["id"])) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/S5-L5%20-%20progetto%20v.1/login.php">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/S5-L5%20-%20progetto%20v.1/signup.php">Register</a>
+                    </li><?php
+                        } ?>
             </ul>
             <?php if (!empty($_SESSION["id"])) { ?>
                 <span><?= $user["username"] ?></span>
