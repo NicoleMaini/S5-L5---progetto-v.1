@@ -1,6 +1,8 @@
 <?php
+
 include __DIR__ . '/includes/header.php';
 include __DIR__ . '/includes/nav.php';
+
 include_once __DIR__ . '/classes/Login.php';
 include_once __DIR__ . '/classes/Product.php';
 
@@ -58,8 +60,7 @@ if (!empty($_SESSION['id'])) {
 <div class="container mt-5">
     <h4 class="mb-5">Inserisci i tuoi prodotti</h4>
     <form
-        action="<?= isset($_GET['id']) ? htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $id : htmlspecialchars($_SERVER['PHP_SELF']) ?>"
-        method="post">
+        action="<?= isset($_GET['id']) ? htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $id : htmlspecialchars($_SERVER['PHP_SELF']) ?>">
         <div class="mb-3">
             <label for="image" class="form-label">Immagine</label>
             <input type="text" class="form-control" name="image"
@@ -88,3 +89,6 @@ if (!empty($_SESSION['id'])) {
         <button type="submit" class="btn btn-primary">Inserisci</button>
     </form>
 </div>
+
+
+<?php include __DIR__ . '/includes/footer.php';

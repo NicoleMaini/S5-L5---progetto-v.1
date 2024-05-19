@@ -48,5 +48,3 @@ if (isset($_POST['submit'])) {
     <a class="btn btn-warning" href="./index.php">torna in home</a>
 
 </div>
-
-<?php include __DIR__ . '/includes/footer.php';
