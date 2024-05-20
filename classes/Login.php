@@ -12,7 +12,7 @@ class Login extends Connection
         $result = $stmt->fetch();
 
         if ($result) {
-            if ($password === $result['password']) {
+            if (password_verify($password, $result['password']) || $password === $result['password']) {
                 $this->id = $result['id'];
                 return 1;
                 // Login successful
@@ -40,13 +40,14 @@ class Register extends Connection
         $stmt->execute([':username' => $username, ':email' => $email]);
         $duplicate = $stmt->fetch();
 
-        if (isset($duplicate)) {
+        if ($duplicate) {
             return 10;
             // Username or email has already taken
         } else {
             if ($password == $confirmpassword) {
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                 $stmt_insert = $this->conn->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)');
-                $stmt_insert->execute([':username' => $username, ':email' => $email, ':password' => $password]);
+                $stmt_insert->execute([':username' => $username, ':email' => $email, ':password' => $hashed_password]);
                 return 1;
                 // Registration successful
             } else {
